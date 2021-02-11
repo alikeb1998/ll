@@ -1,7 +1,11 @@
 import {combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import reduxThunk from 'redux-thunk';
 
-const rootReducer = combineReducers({});
+import {settingsReducer} from './settings/reducers';
+
+const rootReducer = combineReducers({
+	settings: settingsReducer,
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
 
