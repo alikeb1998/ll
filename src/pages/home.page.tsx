@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Button, FileInput, Page } from '../components';
+import { handleEpubThunk } from '../thunks';
 import { Color } from '../store/settings/types';
-import { epubParser } from '../utils/parser/epub.parser';
+import { RootState } from '../store';
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
@@ -15,12 +18,22 @@ const Container = styled.div`
 `;
 
 export const Home = () => {
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+  const { data } = useSelector(({ book }: RootState) => book);
+
   const fileInputRef = useRef<HTMLInputElement & { files: File[] }>(null);
 
   const onOpenFileClick = () => () => fileInputRef.current?.click();
   const onFileChange = (file: File) => {
-    epubParser(file);
+    dispatch(handleEpubThunk(file));
   };
+
+  useEffect(() => {
+    if (data)
+      history.push('/read');
+  }, [data]);
 
   return (
     <>

@@ -1,5 +1,24 @@
-import {JSZipObject, loadAsync} from 'jszip';
+import JSZip, {JSZipObject, loadAsync} from 'jszip';
 import xmlParser from 'fast-xml-parser';
+
+export interface BookData {
+	result: JSZip;
+	content: {
+		meta: {
+			title?: string;
+			author?: string;
+			publisher?: string;
+		};
+		items: {
+			href: string;
+			id: string;
+			'meta-type': string;
+		}[];
+		chapters: {
+			idref: string;
+		}[];
+	};
+}
 
 const getRootFile = async (file: JSZipObject | null): Promise<string> => {
 	if (!file) throw new Error('Invalid Epub file.');
@@ -73,15 +92,21 @@ const parseContentData = async (contentFile: JSZipObject | null) => {
 	};
 };
 
-export const epubParser = async (file: File) => {
-	const result = await loadAsync(file);
+export const epubParser = async (file: File): Promise<BookData> => {
+	try {
+		const result = await loadAsync(file);
 
-	const rootFilePath = await getRootFile(result.file('META-INF/container.xml'));
+		const rootFilePath = await getRootFile(
+			result.file('META-INF/container.xml')
+		);
 
-	const contentFile = result.file(rootFilePath);
+		const contentFile = result.file(rootFilePath);
 
-	return {
-		result,
-		content: await parseContentData(contentFile),
-	};
+		return {
+			result,
+			content: await parseContentData(contentFile),
+		};
+	} catch (err) {
+		throw new Error('Invalid Epub file.');
+	}
 };
