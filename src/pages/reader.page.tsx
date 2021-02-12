@@ -35,12 +35,14 @@ const ContentContainer = styled.div`
 
 interface ContentProps {
   color: Color;
+  fontSize: number;
 }
 
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
   color: ${({ color }) => color};
+  font-size: ${({ fontSize }) => 1 + fontSize / 10}em;
 
   @media only screen and (max-width: 1000px) {
     width: 100%;
@@ -50,7 +52,7 @@ const Content = styled.div<ContentProps>`
 export const Reader = () => {
   const history = useHistory();
 
-  const { book: { data, currentChapter }, settings: { theme: { foreground } } } = useSelector((state: RootState) => state);
+  const { book: { data, currentChapter }, settings: { theme: { foreground }, fontSize } } = useSelector((state: RootState) => state);
 
   const [isLoading, setLoading] = useState(false);
   const [html, setHtml] = useState('');
@@ -94,7 +96,7 @@ export const Reader = () => {
           {
             isLoading ?
               <></> :
-              <Content color={foreground}>
+              <Content color={foreground} fontSize={fontSize}>
                 {ReactHtmlParser(html, {
                   transform: transformImage
                 })}
