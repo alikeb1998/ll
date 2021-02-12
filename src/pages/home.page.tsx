@@ -32,8 +32,8 @@ export const Home = () => {
 
   useEffect(() => {
     if (data)
-      history.push('/read');
-  }, [data]);
+      history.push('/reader');
+  }, [data, history]);
 
   return (
     <>

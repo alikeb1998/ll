@@ -1,9 +1,20 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { RootState } from '../../store';
-import { Color } from '../../store/settings/types';
+import { Color, FontFamily } from '../../store/settings/types';
+
+
+interface StyleProps {
+	fontFamily: FontFamily;
+}
+
+const Style = createGlobalStyle<StyleProps>`
+	* {
+		font-family: ${({ fontFamily }) => fontFamily};
+	}
+`;
 
 interface PageContainerProps {
 	background: Color;
@@ -18,10 +29,11 @@ const PageContainer = styled.div<PageContainerProps>`
 `;
 
 export const Page: FC = ({ children }) => {
-	const { background } = useSelector(({ settings: { theme } }: RootState) => theme);
+	const { theme: { background }, fontFamily } = useSelector(({ settings }: RootState) => settings);
 
 	return (
 		<PageContainer background={background}>
+			<Style fontFamily={fontFamily} />
 			{children}
 		</PageContainer>
 	);
