@@ -18,7 +18,7 @@ const composeEnhancers =
 
 export const store = createStore(
 	rootReducer,
-	composeEnhancers(applyMiddleware(reduxThunk))
+	composeEnhancers(applyMiddleware(reduxThunk)),
 );
 
 export type AppDispatch = typeof store.dispatch;

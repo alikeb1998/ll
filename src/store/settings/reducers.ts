@@ -16,7 +16,7 @@ const initialState: SettingsState = {
 
 export const settingsReducer = (
 	state = initialState,
-	action: SettingsActionTypes
+	action: SettingsActionTypes,
 ): SettingsState => {
 	switch (action.type) {
 		case SET_FONT_SIZE:

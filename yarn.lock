@@ -9382,6 +9382,13 @@ react-scripts@4.0.2:
   optionalDependencies:
     fsevents "^2.1.3"
 
+react-text-selection-popover@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-text-selection-popover/-/react-text-selection-popover-2.0.1.tgz#a02f931aaf5843fdfe3513ff02fc3d3d770c614b"
+  integrity sha512-8G2ocUHqDRonHKow58oh+HVf8p4FGn67elFPwke/C0sNSfQhgy12VaSDBmLEAwPW2n7T5+MupmpG4SJkz6qpDA==
+  dependencies:
+    use-text-selection "^1.1.3"
+
 react@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
@@ -11174,6 +11181,11 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-text-selection@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/use-text-selection/-/use-text-selection-1.1.3.tgz#c8f756cda69d8ff017da0990bbd1c7fe8819aff0"
+  integrity sha512-pu75m3eyk/ZbJlUw7tsgvxXgNEwMEL+n0YDGsW5Y/N7VNkMqhZlvw7yrOAoeUZHxVaxRo3k7zrMAFm2KUMfq6A==
 
 use@^3.1.0:
   version "3.1.1"

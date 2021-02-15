@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
-import styled, { createGlobalStyle } from 'styled-components';
+import React, {FC} from 'react';
+import {useSelector} from 'react-redux';
+import styled, {createGlobalStyle} from 'styled-components';
 
-import { RootState } from '../../store';
-import { Color, FontFamily } from '../../store/settings/types';
+import {RootState} from '../../store';
+import {Color, FontFamily} from '../../store/settings/types';
 
 
 interface StyleProps {
@@ -11,9 +11,9 @@ interface StyleProps {
 }
 
 const Style = createGlobalStyle<StyleProps>`
-	* {
-		font-family: ${({ fontFamily }) => fontFamily};
-	}
+  * {
+    font-family: ${({fontFamily}) => fontFamily};
+  }
 `;
 
 interface PageContainerProps {
@@ -21,15 +21,15 @@ interface PageContainerProps {
 }
 
 const PageContainer = styled.div<PageContainerProps>`
-	width: 100vw;
-	height: 100vh;
-	overflow-y: auto;
-	overflow-x: hidden;
-	background-color: ${({ background }) => background};
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: ${({background}) => background};
 `;
 
-export const Page: FC = ({ children }) => {
-	const { theme: { background }, fontFamily } = useSelector(({ settings }: RootState) => settings);
+export const Page: FC = ({children}) => {
+	const {theme: {background}, fontFamily} = useSelector(({settings}: RootState) => settings);
 
 	return (
 		<PageContainer background={background}>

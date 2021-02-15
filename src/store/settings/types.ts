@@ -1,7 +1,7 @@
 export enum FontFamily {
-	QUICKSAND = "'Quicksand', sans-serif",
-	PT_SANS = "'PT Sans', sans-serif",
-	PT_SERIF = "'PT Serif', serif",
+	QUICKSAND = '\'Quicksand\', sans-serif',
+	PT_SANS = '\'PT Sans\', sans-serif',
+	PT_SERIF = '\'PT Serif\', serif',
 }
 
 export enum Color {

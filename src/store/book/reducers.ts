@@ -12,7 +12,7 @@ const initialState: BookState = {
 
 export const bookReducer = (
 	state = initialState,
-	action: BookActionTypes
+	action: BookActionTypes,
 ): BookState => {
 	switch (action.type) {
 		case SET_DATA:

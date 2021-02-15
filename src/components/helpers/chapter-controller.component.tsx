@@ -1,14 +1,14 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
-import { Back } from '../../assets';
-import { RootState } from '../../store';
-import { setCurrentChapter } from '../../store/book/actions';
-import { Color } from '../../store/settings/types';
+import {useDispatch, useSelector} from 'react-redux';
+import styled, {css} from 'styled-components';
+import {Back} from '../../assets';
+import {RootState} from '../../store';
+import {setCurrentChapter} from '../../store/book/actions';
+import {Color} from '../../store/settings/types';
 
 interface ContainerProps {
-  background: Color;
-  shadow: boolean;
+	background: Color;
+	shadow: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -18,9 +18,9 @@ const Container = styled.div<ContainerProps>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background: ${({ background }) => background};
+  background: ${({background}) => background};
 
-  ${({ shadow }) => shadow && css`
+  ${({shadow}) => shadow && css`
     box-shadow: 0 -10px 40px 0 #00000029;
   `}
 `;
@@ -33,11 +33,11 @@ const Bar = styled.div`
 `;
 
 interface FilledBarProps {
-  fill: number;
+	fill: number;
 }
 
 const FilledBar = styled.div<FilledBarProps>`
-  width: ${({ fill }) => fill}%;
+  width: ${({fill}) => fill}%;
   height: 24px;
   border-radius: 12px;
   display: flex;
@@ -54,10 +54,10 @@ const StepText = styled.div`
 `;
 
 interface OpenButtonProps {
-  shadow: boolean;
-  background: Color;
-  reversed: boolean;
-  disabled: boolean;
+	shadow: boolean;
+	background: Color;
+	reversed: boolean;
+	disabled: boolean;
 }
 
 const ControllerButton = styled.div<OpenButtonProps>`
@@ -69,7 +69,7 @@ const ControllerButton = styled.div<OpenButtonProps>`
   justify-content: center;
   align-items: center;
   transition: all 336ms;
-  background: ${({ background }) => background};
+  background: ${({background}) => background};
   z-index: 1;
 
   &:hover {
@@ -77,11 +77,11 @@ const ControllerButton = styled.div<OpenButtonProps>`
     transform: scale(1.05);
   }
 
-  ${({ shadow }) => shadow && css`
+  ${({shadow}) => shadow && css`
     box-shadow: 0 3px 20px 0 #00000029;
   `}
 
-  ${({ reversed, disabled }) => reversed && css`
+  ${({reversed, disabled}) => reversed && css`
     transform: scaleX(-1);
 
     &:hover {
@@ -93,37 +93,42 @@ const ControllerButton = styled.div<OpenButtonProps>`
     `}
   `}
 
-  ${({ disabled }) => disabled && css`
+  ${({disabled}) => disabled && css`
     opacity: 0.5 !important;
     transform: scale(1);
   `}
 `;
 
 export const ChapterController = () => {
-  const dispatch = useDispatch();
-  const { book: { data, currentChapter }, settings: { theme: { background, secondaryBackground, shadow, foreground } } } = useSelector((state: RootState) => state);
+	const dispatch = useDispatch();
+	const {
+		book: {data, currentChapter},
+		settings: {theme: {background, secondaryBackground, shadow, foreground}},
+	} = useSelector((state: RootState) => state);
 
-  const chapters = data?.content?.chapters?.length || 1;
+	const chapters = data?.content?.chapters?.length || 1;
 
-  const pervDisabled = currentChapter === 0;
-  const nextDisabled = currentChapter === chapters - 1;
+	const pervDisabled = currentChapter === 0;
+	const nextDisabled = currentChapter === chapters - 1;
 
-  const onPrevClick = () => () => dispatch(setCurrentChapter(currentChapter - 1));
-  const onNextClick = () => () => dispatch(setCurrentChapter(currentChapter + 1));
+	const onPrevClick = () => () => dispatch(setCurrentChapter(currentChapter - 1));
+	const onNextClick = () => () => dispatch(setCurrentChapter(currentChapter + 1));
 
-  return (
-    <Container background={secondaryBackground} shadow={shadow}>
-      <ControllerButton shadow={shadow} background={background} reversed={false} onClick={pervDisabled ? undefined : onPrevClick()} disabled={pervDisabled}>
-        <Back color={foreground} />
-      </ControllerButton>
-      <Bar>
-        <FilledBar fill={(currentChapter + 1) / chapters * 100}>
-          <StepText>{currentChapter + 1}/{chapters}</StepText>
-        </FilledBar>
-      </Bar>
-      <ControllerButton shadow={shadow} background={background} reversed onClick={nextDisabled ? undefined : onNextClick()} disabled={nextDisabled}>
-        <Back color={foreground} />
-      </ControllerButton>
-    </Container>
-  );
+	return (
+		<Container background={secondaryBackground} shadow={shadow}>
+			<ControllerButton shadow={shadow} background={background} reversed={false}
+												onClick={pervDisabled ? undefined : onPrevClick()} disabled={pervDisabled}>
+				<Back color={foreground} />
+			</ControllerButton>
+			<Bar>
+				<FilledBar fill={(currentChapter + 1) / chapters * 100}>
+					<StepText>{currentChapter + 1}/{chapters}</StepText>
+				</FilledBar>
+			</Bar>
+			<ControllerButton shadow={shadow} background={background} reversed
+												onClick={nextDisabled ? undefined : onNextClick()} disabled={nextDisabled}>
+				<Back color={foreground} />
+			</ControllerButton>
+		</Container>
+	);
 };

@@ -1,14 +1,14 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
-import { Back } from '../../assets';
-import { RootState } from '../../store';
-import { setCurrentChapter, setData } from '../../store/book/actions';
-import { Color } from '../../store/settings/types';
+import {useDispatch, useSelector} from 'react-redux';
+import styled, {css} from 'styled-components';
+import {Back} from '../../assets';
+import {RootState} from '../../store';
+import {setCurrentChapter, setData} from '../../store/book/actions';
+import {Color} from '../../store/settings/types';
 
 interface OpenButtonProps {
-  shadow: boolean;
-  background: Color;
+	shadow: boolean;
+	background: Color;
 }
 
 const BackButton = styled.div<OpenButtonProps>`
@@ -20,7 +20,7 @@ const BackButton = styled.div<OpenButtonProps>`
   justify-content: center;
   align-items: center;
   transition: all 336ms;
-  background: ${({ background }) => background};
+  background: ${({background}) => background};
   z-index: 1;
 
   &:hover {
@@ -28,23 +28,23 @@ const BackButton = styled.div<OpenButtonProps>`
     transform: scale(1.05);
   }
 
-  ${({ shadow }) => shadow && css`
+  ${({shadow}) => shadow && css`
     box-shadow: 0 3px 20px 0 #00000029;
   `}
 `;
 
 export const BackHome = () => {
-  const dispatch = useDispatch();
-  const { secondaryBackground, shadow, foreground } = useSelector(({ settings: { theme } }: RootState) => theme);
+	const dispatch = useDispatch();
+	const {secondaryBackground, shadow, foreground} = useSelector(({settings: {theme}}: RootState) => theme);
 
-  const onBackButtonClick = () => () => {
-    dispatch(setData());
-    dispatch(setCurrentChapter(0));
-  };
+	const onBackButtonClick = () => () => {
+		dispatch(setData());
+		dispatch(setCurrentChapter(0));
+	};
 
-  return (
-    <BackButton shadow={shadow} background={secondaryBackground} onClick={onBackButtonClick()}>
-      <Back color={foreground} />
-    </BackButton>
-  );
+	return (
+		<BackButton shadow={shadow} background={secondaryBackground} onClick={onBackButtonClick()}>
+			<Back color={foreground} />
+		</BackButton>
+	);
 };

@@ -12,7 +12,7 @@ const initialState: AppState = {
 
 export const appReducer = (
 	state = initialState,
-	action: AppActionTypes
+	action: AppActionTypes,
 ): AppState => {
 	switch (action.type) {
 		case SET_LOADING:

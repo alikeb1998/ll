@@ -7,9 +7,9 @@ import {setError, setLoading} from '../store/app/actions';
 import {setData} from '../store/book/actions';
 
 export const handleEpubThunk = (
-	file: File
+	file: File,
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
-	dispatch
+	dispatch,
 ) => {
 	dispatch(setLoading(true));
 

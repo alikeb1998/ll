@@ -1,10 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
-import { Loading, Error } from '.';
+import {Provider} from 'react-redux';
+import {createGlobalStyle} from 'styled-components';
+import {Loading, Error} from '.';
 
-import { RootRouter } from '../routes';
-import { store } from '../store';
+import {RootRouter} from '../routes';
+import {store} from '../store';
 
 const Style = createGlobalStyle`
   * {
@@ -12,15 +12,19 @@ const Style = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  .highlight {
+    background: yellow;
+  }
 `;
 
 export const App = () => {
-  return (
-    <Provider store={store}>
-      <Style />
-      <Loading />
-      <Error />
-      <RootRouter />
-    </Provider>
-  );
+	return (
+		<Provider store={store}>
+			<Style />
+			<Loading />
+			<Error />
+			<RootRouter />
+		</Provider>
+	);
 };

@@ -84,10 +84,10 @@ const parseContentData = async (contentFile: JSZipObject | null) => {
 	return {
 		meta: parseMetadata(contentData.package[0].metadata[0]),
 		items: contentData.package[0].manifest[0].item.map(
-			({attr}: {attr: string}) => attr
+			({attr}: {attr: string}) => attr,
 		),
 		chapters: contentData.package[0].spine[0].itemref.map(
-			({attr}: {attr: string}) => attr
+			({attr}: {attr: string}) => attr,
 		),
 	};
 };
@@ -97,7 +97,7 @@ export const epubParser = async (file: File): Promise<BookData> => {
 		const result = await loadAsync(file);
 
 		const rootFilePath = await getRootFile(
-			result.file('META-INF/container.xml')
+			result.file('META-INF/container.xml'),
 		);
 
 		const contentFile = result.file(rootFilePath);
