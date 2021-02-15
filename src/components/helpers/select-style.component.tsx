@@ -63,7 +63,6 @@ interface PanelProps {
 const Panel = styled.div<PanelProps>`
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
   width: 160px;
   position: relative;
   padding: 15px;
@@ -94,6 +93,18 @@ const Panel = styled.div<PanelProps>`
     border: 10px solid transparent;
     border-bottom-color: ${({background}) => background};
   }
+
+  & > * {
+    margin: 6px 0;
+  }
+	
+	& > *:first-child {
+		margin-top: 0;
+	}
+	
+	& > *:last-child {
+		margin-bottom: 0;
+	}
 
   ${({shadow}) => shadow && css`
     box-shadow: 0 10px 30px 0 #00000029;

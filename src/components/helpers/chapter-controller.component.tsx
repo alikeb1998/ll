@@ -18,6 +18,7 @@ const Container = styled.div<ContainerProps>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+	height: 80px;
   background: ${({background}) => background};
 
   ${({shadow}) => shadow && css`
@@ -40,17 +41,18 @@ const FilledBar = styled.div<FilledBarProps>`
   width: ${({fill}) => fill}%;
   height: 24px;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: end;
   background: ${Color.MALACHITE};
   color: ${Color.WHITE};
   transition: all 336ms;
 `;
 
 const StepText = styled.div`
-  padding-right: 10px;
   user-select: none;
+	position: relative;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	direction: rtl;
 `;
 
 interface OpenButtonProps {
@@ -71,6 +73,7 @@ const ControllerButton = styled.div<OpenButtonProps>`
   transition: all 336ms;
   background: ${({background}) => background};
   z-index: 1;
+	margin: 0 10px;
 
   &:hover {
     opacity: 0.7;

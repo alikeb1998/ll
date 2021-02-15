@@ -9,6 +9,7 @@ import styled, {css} from 'styled-components';
 import {BackHome, ChapterController, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
+import {useWindowSize} from '../hooks';
 
 const Container = styled.div`
   width: 100%;
@@ -29,10 +30,35 @@ const BackHomeContainer = styled.div`
   left: 20px;
 `;
 
-const ContentContainer = styled.div`
+interface ContentContainerProps {
+	height: number;
+	color: Color;
+}
+
+const ContentContainer = styled.div<ContentContainerProps>`
   flex: 1;
   overflow: auto;
   padding: 20px;
+	height: ${({height}) => height};
+	
+	&::-webkit-scrollbar {
+		width: 12px;
+		background-color: transparent;
+	}
+	
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+	
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({color}) => color}AA;
+		border-radius: 10px;
+		transition: all 336ms;
+	}
+	
+  &::-webkit-scrollbar-thumb:active {
+    background-color: ${({color}) => color};
+  }
 `;
 
 interface ContentProps {
@@ -43,8 +69,11 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-  color: ${({color}) => color};
-  font-size: ${({fontSize}) => 1 + fontSize / 10}em;
+	
+	& html > body * {
+    color: ${({color}) => color} !important;
+    font-size: ${({fontSize}) => 1 + fontSize / 10}em !important;
+	}
 
   @media only screen and (max-width: 1000px) {
     width: 100%;
@@ -110,11 +139,13 @@ const HighlightButton = styled.div<HighlightButtonProps>`
   }
 `;
 
-const renderTextSelection = (shadow: boolean, background: Color, onHighlightClick: (className: string, range: Range) => void): FunctionComponent<ReturnType<typeof useTextSelection>> => ({
-																																																																																														clientRect,
-																																																																																														isCollapsed,
-																																																																																														textContent,
-																																																																																													}) => {
+const renderTextSelection = (shadow: boolean, background: Color, onHighlightClick: (className: string, range: Range) => void): FunctionComponent<ReturnType<typeof useTextSelection>> => (
+	{
+		clientRect,
+		isCollapsed,
+		textContent,
+	},
+) => {
 	if (!clientRect || isCollapsed) return null;
 
 	const onHighlightButtonClick = (className: string) => () => {
@@ -146,12 +177,14 @@ export const Reader = () => {
 
 	const {
 		book: {data, currentChapter},
-		settings: {theme: {foreground, secondaryBackground, shadow}, fontSize},
+		settings: {theme: {foreground, secondaryBackground, shadow, accent}, fontSize},
 	} = useSelector((state: RootState) => state);
 
 	const [isLoading, setLoading] = useState(false);
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
+
+	const {height} = useWindowSize();
 
 	useEffect(() => {
 		if (!data)
@@ -205,7 +238,7 @@ export const Reader = () => {
 				<SelectStyle />
 			</SelectStyleContainer>
 			<Container>
-				<ContentContainer>
+				<ContentContainer height={height - 80} color={accent}>
 					{
 						isLoading ?
 							<></> :
