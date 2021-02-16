@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect} from 'react';
+import React, {FunctionComponent, useEffect, useRef} from 'react';
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
@@ -170,6 +170,8 @@ export const Reader = () => {
 		settings: {theme: {foreground, secondaryBackground, shadow, accent}, fontSize},
 	} = useSelector((state: RootState) => state);
 
+	const containerRef = useRef<HTMLDivElement>(null);
+
 	const [isLoading, setLoading] = useState(false);
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
@@ -225,7 +227,7 @@ export const Reader = () => {
 			<SelectStyleContainer>
 				<SelectStyle />
 			</SelectStyleContainer>
-			<Container color={accent}>
+			<Container color={accent} ref={containerRef}>
 				{
 					isLoading ?
 						<></> :
@@ -236,7 +238,7 @@ export const Reader = () => {
 							})}
 						</Content>
 				}
-				<ChapterController />
+				<ChapterController containerRef={containerRef} />
 			</Container>
 		</Page>
 	);

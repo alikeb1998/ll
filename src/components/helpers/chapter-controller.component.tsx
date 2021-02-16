@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC, RefObject, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 import {Back} from '../../assets';
@@ -9,6 +9,7 @@ import {Color} from '../../store/settings/types';
 interface ContainerProps {
 	background: Color;
 	shadow: boolean;
+	isOpen: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -20,8 +21,9 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 80px;
   background: ${({background}) => background};
-	position: fixed;
-	bottom: -80px;
+  position: fixed;
+  bottom: ${({isOpen}) => isOpen ? 0 : -80}px;
+  transition: all 336ms;
 
   ${({shadow}) => shadow && css`
     box-shadow: 0 -10px 40px 0 #00000029;
@@ -104,15 +106,32 @@ const ControllerButton = styled.div<OpenButtonProps>`
   `}
 `;
 
-export const ChapterController = () => {
+interface Props {
+	containerRef: RefObject<HTMLDivElement>;
+}
+
+export const ChapterController: FC<Props> = ({containerRef}) => {
 	const dispatch = useDispatch();
 	const {
 		book: {data, currentChapter},
 		settings: {theme: {background, secondaryBackground, shadow, foreground}},
 	} = useSelector((state: RootState) => state);
 
-	const chapters = data?.content?.chapters?.length || 1;
+	const [isOpen, setOpen] = useState(true);
+	const [scrollPosition, setScrollPosition] = useState(containerRef.current?.scrollTop || 0);
 
+	useEffect(() => {
+		if (containerRef.current && containerRef.current)
+			containerRef.current.onscroll = () => {
+				if (scrollPosition > (containerRef.current?.scrollTop || 0))
+					setOpen(true);
+				else
+					setOpen(false);
+				setScrollPosition(containerRef.current?.scrollTop || 0);
+			};
+	}, [containerRef, scrollPosition]);
+
+	const chapters = data?.content?.chapters?.length || 1;
 	const pervDisabled = currentChapter === 0;
 	const nextDisabled = currentChapter === chapters - 1;
 
@@ -120,9 +139,10 @@ export const ChapterController = () => {
 	const onNextClick = () => () => dispatch(setCurrentChapter(currentChapter + 1));
 
 	return (
-		<Container background={secondaryBackground} shadow={shadow}>
+		<Container background={secondaryBackground} shadow={shadow} isOpen={isOpen}>
 			<ControllerButton shadow={shadow} background={background} reversed={false}
-												onClick={pervDisabled ? undefined : onPrevClick()} disabled={pervDisabled}>
+												onClick={pervDisabled ? undefined : onPrevClick()}
+												disabled={pervDisabled}>
 				<Back color={foreground} />
 			</ControllerButton>
 			<Bar>
@@ -131,7 +151,8 @@ export const ChapterController = () => {
 				</FilledBar>
 			</Bar>
 			<ControllerButton shadow={shadow} background={background} reversed
-												onClick={nextDisabled ? undefined : onNextClick()} disabled={nextDisabled}>
+												onClick={nextDisabled ? undefined : onNextClick()}
+												disabled={nextDisabled}>
 				<Back color={foreground} />
 			</ControllerButton>
 		</Container>
