@@ -39,16 +39,26 @@ const Container = styled.div<ContainerProps>`
   }
 `;
 
-const SelectStyleContainer = styled.div`
-  position: absolute;
+interface SelectStyleContainerProps {
+	isOpen: boolean;
+}
+
+const SelectStyleContainer = styled.div<SelectStyleContainerProps>`
+  position: fixed;
   top: 20px;
-  right: 20px;
+  right: ${({isOpen}) => isOpen ? 20 : -100}px;
+	transition: all 336ms;
 `;
 
-const BackHomeContainer = styled.div`
-  position: absolute;
+interface BackHomeContainerProps {
+	isOpen: boolean;
+}
+
+const BackHomeContainer = styled.div<BackHomeContainerProps>`
+  position: fixed;
   top: 20px;
-  left: 20px;
+  left: ${({isOpen}) => isOpen ? 20 : -100}px;
+  transition: all 336ms;
 `;
 
 interface ContentProps {
@@ -175,6 +185,19 @@ export const Reader = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
+	const [isOpen, setOpen] = useState(true);
+	const [scrollPosition, setScrollPosition] = useState(containerRef.current?.scrollTop || 0);
+
+	useEffect(() => {
+		if (containerRef.current && containerRef.current)
+			containerRef.current.onscroll = () => {
+				if (scrollPosition > (containerRef.current?.scrollTop || 0))
+					setOpen(true);
+				else
+					setOpen(false);
+				setScrollPosition(containerRef.current?.scrollTop || 0);
+			};
+	}, [containerRef, scrollPosition]);
 
 	useEffect(() => {
 		if (!data)
@@ -221,10 +244,10 @@ export const Reader = () => {
 
 	return (
 		<Page>
-			<BackHomeContainer>
+			<BackHomeContainer isOpen={isOpen}>
 				<BackHome />
 			</BackHomeContainer>
-			<SelectStyleContainer>
+			<SelectStyleContainer isOpen={isOpen}>
 				<SelectStyle />
 			</SelectStyleContainer>
 			<Container color={accent} ref={containerRef}>
@@ -238,7 +261,7 @@ export const Reader = () => {
 							})}
 						</Content>
 				}
-				<ChapterController containerRef={containerRef} />
+				<ChapterController isOpen={isOpen} />
 			</Container>
 		</Page>
 	);

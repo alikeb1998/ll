@@ -107,29 +107,15 @@ const ControllerButton = styled.div<OpenButtonProps>`
 `;
 
 interface Props {
-	containerRef: RefObject<HTMLDivElement>;
+	isOpen: boolean;
 }
 
-export const ChapterController: FC<Props> = ({containerRef}) => {
+export const ChapterController: FC<Props> = ({isOpen}) => {
 	const dispatch = useDispatch();
 	const {
 		book: {data, currentChapter},
 		settings: {theme: {background, secondaryBackground, shadow, foreground}},
 	} = useSelector((state: RootState) => state);
-
-	const [isOpen, setOpen] = useState(true);
-	const [scrollPosition, setScrollPosition] = useState(containerRef.current?.scrollTop || 0);
-
-	useEffect(() => {
-		if (containerRef.current && containerRef.current)
-			containerRef.current.onscroll = () => {
-				if (scrollPosition > (containerRef.current?.scrollTop || 0))
-					setOpen(true);
-				else
-					setOpen(false);
-				setScrollPosition(containerRef.current?.scrollTop || 0);
-			};
-	}, [containerRef, scrollPosition]);
 
 	const chapters = data?.content?.chapters?.length || 1;
 	const pervDisabled = currentChapter === 0;
