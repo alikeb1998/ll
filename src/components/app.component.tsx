@@ -12,10 +12,6 @@ const Style = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-
-  .highlight {
-    background: yellow;
-  }
 `;
 
 export const App = () => {

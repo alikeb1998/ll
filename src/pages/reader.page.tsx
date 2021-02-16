@@ -9,13 +9,34 @@ import styled, {css} from 'styled-components';
 import {BackHome, ChapterController, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
-import {useWindowSize} from '../hooks';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+interface ContainerProps {
+	color: Color;
+}
+
+const Container = styled.div<ContainerProps>`
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({color}) => color}AA;
+    border-radius: 10px;
+    transition: all 336ms;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: ${({color}) => color};
+  }
 `;
 
 const SelectStyleContainer = styled.div`
@@ -30,37 +51,6 @@ const BackHomeContainer = styled.div`
   left: 20px;
 `;
 
-interface ContentContainerProps {
-	height: number;
-	color: Color;
-}
-
-const ContentContainer = styled.div<ContentContainerProps>`
-  flex: 1;
-  overflow: auto;
-  padding: 20px;
-	height: ${({height}) => height};
-	
-	&::-webkit-scrollbar {
-		width: 12px;
-		background-color: transparent;
-	}
-	
-	&::-webkit-scrollbar-track {
-		background-color: transparent;
-	}
-	
-	&::-webkit-scrollbar-thumb {
-		background-color: ${({color}) => color}AA;
-		border-radius: 10px;
-		transition: all 336ms;
-	}
-	
-  &::-webkit-scrollbar-thumb:active {
-    background-color: ${({color}) => color};
-  }
-`;
-
 interface ContentProps {
 	color: Color;
 	fontSize: number;
@@ -69,11 +59,11 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-	
-	& html > body * {
+
+  & html > body * {
     color: ${({color}) => color} !important;
     font-size: ${({fontSize}) => 1 + fontSize / 10}em !important;
-	}
+  }
 
   @media only screen and (max-width: 1000px) {
     width: 100%;
@@ -184,8 +174,6 @@ export const Reader = () => {
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
 
-	const {height} = useWindowSize();
-
 	useEffect(() => {
 		if (!data)
 			history.push('/');
@@ -237,19 +225,17 @@ export const Reader = () => {
 			<SelectStyleContainer>
 				<SelectStyle />
 			</SelectStyleContainer>
-			<Container>
-				<ContentContainer height={height - 80} color={accent}>
-					{
-						isLoading ?
-							<></> :
-							<Content color={foreground} fontSize={fontSize}>
-								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
-								{ReactHtmlParser(html, {
-									transform: transformImage,
-								})}
-							</Content>
-					}
-				</ContentContainer>
+			<Container color={accent}>
+				{
+					isLoading ?
+						<></> :
+						<Content color={foreground} fontSize={fontSize}>
+							<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
+							{ReactHtmlParser(html, {
+								transform: transformImage,
+							})}
+						</Content>
+				}
 				<ChapterController />
 			</Container>
 		</Page>
