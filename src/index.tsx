@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {App} from './components';
+import * as serviceWorkerRegistration from './service-worker-registration';
 
 document.addEventListener('contextmenu', (event) => {
 	event.preventDefault();
@@ -15,3 +16,5 @@ ReactDOM.render(
 	<App />,
 	document.getElementById('root'),
 );
+
+serviceWorkerRegistration.register();

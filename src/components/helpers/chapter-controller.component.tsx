@@ -1,4 +1,4 @@
-import React, {FC, RefObject, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 import {Back} from '../../assets';

@@ -1,8 +1,9 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {createGlobalStyle} from 'styled-components';
-import {Loading, Error} from '.';
 
+
+import {Loading, Error, Installer} from '.';
 import {RootRouter} from '../routes';
 import {store} from '../store';
 
@@ -20,6 +21,7 @@ export const App = () => {
 			<Style />
 			<Loading />
 			<Error />
+			<Installer/>
 			<RootRouter />
 		</Provider>
 	);

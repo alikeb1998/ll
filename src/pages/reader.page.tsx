@@ -143,7 +143,6 @@ const renderTextSelection = (shadow: boolean, background: Color, onHighlightClic
 	{
 		clientRect,
 		isCollapsed,
-		textContent,
 	},
 ) => {
 	if (!clientRect || isCollapsed) return null;

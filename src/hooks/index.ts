@@ -1,1 +1,1 @@
-export * from './window-size.hook';
+export * from './installation-prompt.hook';
