@@ -10,7 +10,7 @@ import {useHistory} from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: space-around;
   align-items: center;

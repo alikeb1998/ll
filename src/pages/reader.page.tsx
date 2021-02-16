@@ -10,33 +10,8 @@ import {BackHome, ChapterController, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
 
-interface ContainerProps {
-	color: Color;
-}
-
-const Container = styled.div<ContainerProps>`
+const Container = styled.div`
   width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 12px;
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({color}) => color}AA;
-    border-radius: 10px;
-    transition: all 336ms;
-  }
-
-  &::-webkit-scrollbar-thumb:active {
-    background-color: ${({color}) => color};
-  }
 `;
 
 interface SelectStyleContainerProps {
@@ -69,6 +44,7 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
+	padding: 20px;
 
   & html > body * {
     color: ${({color}) => color} !important;
@@ -176,27 +152,27 @@ export const Reader = () => {
 
 	const {
 		book: {data, currentChapter},
-		settings: {theme: {foreground, secondaryBackground, shadow, accent}, fontSize},
+		settings: {theme: {foreground, secondaryBackground, shadow}, fontSize},
 	} = useSelector((state: RootState) => state);
 
-	const containerRef = useRef<HTMLDivElement>(null);
+	const pageRef = useRef<HTMLDivElement>(null);
 
 	const [isLoading, setLoading] = useState(false);
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
 	const [isOpen, setOpen] = useState(true);
-	const [scrollPosition, setScrollPosition] = useState(containerRef.current?.scrollTop || 0);
+	const [scrollPosition, setScrollPosition] = useState(pageRef.current?.scrollTop || 0);
 
 	useEffect(() => {
-		if (containerRef.current && containerRef.current)
-			containerRef.current.onscroll = () => {
-				if (scrollPosition > (containerRef.current?.scrollTop || 0))
+		if (pageRef.current)
+			pageRef.current.onscroll = () => {
+				if (scrollPosition > (pageRef.current?.scrollTop || 0))
 					setOpen(true);
 				else
 					setOpen(false);
-				setScrollPosition(containerRef.current?.scrollTop || 0);
+				setScrollPosition(pageRef.current?.scrollTop || 0);
 			};
-	}, [containerRef, scrollPosition]);
+	}, [pageRef, scrollPosition]);
 
 	useEffect(() => {
 		if (!data)
@@ -242,14 +218,14 @@ export const Reader = () => {
 	};
 
 	return (
-		<Page>
+		<Page containerRef={pageRef}>
 			<BackHomeContainer isOpen={isOpen}>
 				<BackHome />
 			</BackHomeContainer>
 			<SelectStyleContainer isOpen={isOpen}>
 				<SelectStyle />
 			</SelectStyleContainer>
-			<Container color={accent} ref={containerRef}>
+			<Container>
 				{
 					isLoading ?
 						<></> :
