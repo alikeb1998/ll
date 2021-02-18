@@ -9,7 +9,6 @@ import {Color} from '../../store/settings/types';
 interface ContainerProps {
 	background: Color;
 	shadow: boolean;
-	isOpen: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -21,8 +20,6 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 80px;
   background: ${({background}) => background};
-  position: fixed;
-  bottom: ${({isOpen}) => isOpen ? 0 : -80}px;
   transition: all 336ms;
 
   ${({shadow}) => shadow && css`
@@ -106,11 +103,7 @@ const ControllerButton = styled.div<OpenButtonProps>`
   `}
 `;
 
-interface Props {
-	isOpen: boolean;
-}
-
-export const ChapterController: FC<Props> = ({isOpen}) => {
+export const ChapterController: FC = () => {
 	const dispatch = useDispatch();
 	const {
 		book: {data, currentChapter},
@@ -125,7 +118,7 @@ export const ChapterController: FC<Props> = ({isOpen}) => {
 	const onNextClick = () => () => dispatch(setCurrentChapter(currentChapter + 1));
 
 	return (
-		<Container background={secondaryBackground} shadow={shadow} isOpen={isOpen}>
+		<Container background={secondaryBackground} shadow={shadow}>
 			<ControllerButton shadow={shadow} background={background} reversed={false}
 												onClick={pervDisabled ? undefined : onPrevClick()}
 												disabled={pervDisabled}>

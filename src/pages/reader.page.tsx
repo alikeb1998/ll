@@ -9,30 +9,23 @@ import styled, {css} from 'styled-components';
 import {BackHome, ChapterController, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
+import {useWindowSize} from '../hooks';
 
 const Container = styled.div`
   width: 100vw;
 `;
 
-interface SelectStyleContainerProps {
-	isOpen: boolean;
-}
-
-const SelectStyleContainer = styled.div<SelectStyleContainerProps>`
+const SelectStyleContainer = styled.div`
   position: fixed;
   top: 20px;
-  right: ${({isOpen}) => isOpen ? 20 : -100}px;
-	transition: all 336ms;
+  right: 20px;
+  transition: all 336ms;
 `;
 
-interface BackHomeContainerProps {
-	isOpen: boolean;
-}
-
-const BackHomeContainer = styled.div<BackHomeContainerProps>`
+const BackHomeContainer = styled.div`
   position: fixed;
   top: 20px;
-  left: ${({isOpen}) => isOpen ? 20 : -100}px;
+  left: 20px;
   transition: all 336ms;
 `;
 
@@ -41,10 +34,20 @@ interface ContentProps {
 	fontSize: number;
 }
 
+interface ContentContainerProps {
+	height: number;
+}
+
+const ContentContainer = styled.div<ContentContainerProps>`
+	width: 100%;
+	height: ${({height}) => height}px;
+	overflow-y: auto;
+`;
+
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-	padding: 20px;
+  padding: 20px;
 
   & html > body * {
     color: ${({color}) => color} !important;
@@ -96,7 +99,6 @@ const HighlightButton = styled.div<HighlightButtonProps>`
   position: relative;
 
   & > div {
-    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
@@ -155,24 +157,11 @@ export const Reader = () => {
 		settings: {theme: {foreground, secondaryBackground, shadow}, fontSize},
 	} = useSelector((state: RootState) => state);
 
-	const pageRef = useRef<HTMLDivElement>(null);
-
 	const [isLoading, setLoading] = useState(false);
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
-	const [isOpen, setOpen] = useState(true);
-	const [scrollPosition, setScrollPosition] = useState(pageRef.current?.scrollTop || 0);
 
-	useEffect(() => {
-		if (pageRef.current)
-			pageRef.current.onscroll = () => {
-				if (scrollPosition > (pageRef.current?.scrollTop || 0))
-					setOpen(true);
-				else
-					setOpen(false);
-				setScrollPosition(pageRef.current?.scrollTop || 0);
-			};
-	}, [pageRef, scrollPosition]);
+	const {height} = useWindowSize();
 
 	useEffect(() => {
 		if (!data)
@@ -218,25 +207,27 @@ export const Reader = () => {
 	};
 
 	return (
-		<Page containerRef={pageRef}>
-			<BackHomeContainer isOpen={isOpen}>
+		<Page>
+			<BackHomeContainer>
 				<BackHome />
 			</BackHomeContainer>
-			<SelectStyleContainer isOpen={isOpen}>
+			<SelectStyleContainer>
 				<SelectStyle />
 			</SelectStyleContainer>
 			<Container>
 				{
 					isLoading ?
 						<></> :
-						<Content color={foreground} fontSize={fontSize}>
-							<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
-							{ReactHtmlParser(html, {
-								transform: transformImage,
-							})}
-						</Content>
+						<ContentContainer height={height - 80}>
+							<Content color={foreground} fontSize={fontSize}>
+								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
+								{ReactHtmlParser(html, {
+									transform: transformImage,
+								})}
+							</Content>
+						</ContentContainer>
 				}
-				<ChapterController isOpen={isOpen} />
+				<ChapterController/>
 			</Container>
 		</Page>
 	);
