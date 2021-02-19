@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useRef} from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
@@ -6,7 +6,8 @@ import {useTextSelection} from 'use-text-selection';
 import ReactHtmlParser, {Transform} from 'react-html-parser';
 import {Popover} from 'react-text-selection-popover';
 import styled, {css} from 'styled-components';
-import {BackHome, ChapterController, Page, SelectStyle} from '../components';
+
+import {BackHome, ChapterController, ChaptersMenu, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
 import {useWindowSize} from '../hooks';
@@ -29,6 +30,14 @@ const BackHomeContainer = styled.div`
   transition: all 336ms;
 `;
 
+const ChaptersMenuContainer = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transition: all 336ms;
+	transform: translateX(-50%);
+`;
+
 interface ContentProps {
 	color: Color;
 	fontSize: number;
@@ -39,9 +48,9 @@ interface ContentContainerProps {
 }
 
 const ContentContainer = styled.div<ContentContainerProps>`
-	width: 100%;
-	height: ${({height}) => height}px;
-	overflow-y: auto;
+  width: 100%;
+  height: ${({height}) => height}px;
+  overflow-y: auto;
 `;
 
 const Content = styled.div<ContentProps>`
@@ -214,6 +223,9 @@ export const Reader = () => {
 			<SelectStyleContainer>
 				<SelectStyle />
 			</SelectStyleContainer>
+			<ChaptersMenuContainer>
+				<ChaptersMenu/>
+			</ChaptersMenuContainer>
 			<Container>
 				{
 					isLoading ?
@@ -227,7 +239,7 @@ export const Reader = () => {
 							</Content>
 						</ContentContainer>
 				}
-				<ChapterController/>
+				<ChapterController />
 			</Container>
 		</Page>
 	);

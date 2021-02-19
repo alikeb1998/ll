@@ -14,6 +14,10 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
+		
+		body, #root {
+			overflow: hidden;
+		}
 
     &::-webkit-scrollbar {
       width: 12px;
@@ -43,8 +47,7 @@ interface PageContainerProps {
 const PageContainer = styled.div<PageContainerProps>`
   width: 100vw;
 	height: 100vh;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
   background-color: ${({background}) => background};
 `;
 
