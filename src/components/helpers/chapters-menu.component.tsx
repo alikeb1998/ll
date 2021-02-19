@@ -68,10 +68,15 @@ const Panel = styled.div<PanelProps>`
   `}
 `;
 
-const CloseControllerContainer = styled.div`
-  padding: 40px;
+interface CloseControllerContainerProps {
+	color: Color;
+}
+
+const CloseControllerContainer = styled.div<CloseControllerContainerProps>`
+  padding: 20px;
   text-align: center;
   transition: all 336ms;
+	border-bottom: 2px solid ${({color}) => color};
 
   &:hover {
     opacity: 0.7;
@@ -81,6 +86,7 @@ const CloseControllerContainer = styled.div`
 interface ChapterControllerProps {
 	fontFamily: FontFamily;
 	color: Color;
+	borderColor: Color;
 	selected: boolean;
 }
 
@@ -93,14 +99,15 @@ const ChapterContainer = styled.div<ChapterControllerProps>`
   user-select: none;
   cursor: pointer;
   color: ${({color}) => color};
+  border-bottom: 1px solid ${({borderColor}) => borderColor};
 
   &:hover {
     opacity: 0.7;
-    background-color: ${({color}) => color}44;
+    background-color: ${({color}) => color}22;
   }
 
   ${({selected, color}) => selected && css`
-    background-color: ${color}22;
+    background-color: ${color}11;
     opacity: 0.7;
   `}
 `;
@@ -109,7 +116,7 @@ export const ChaptersMenu = () => {
 	const dispatch = useDispatch();
 	const {
 		book: {data, currentChapter},
-		settings: {theme: {secondaryBackground, shadow, foreground}, fontFamily},
+		settings: {theme: {secondaryBackground, shadow, foreground, accent}, fontFamily},
 	} = useSelector((state: RootState) => state);
 
 	const [isOpen, setOpen] = useState(false);
@@ -124,7 +131,7 @@ export const ChaptersMenu = () => {
 
 	const renderChapters = () => data?.content?.chapters?.map((_, i) => (
 		<ChapterContainer fontFamily={fontFamily} color={foreground} selected={i === currentChapter}
-											onClick={onChapterClick(i)}>
+											onClick={onChapterClick(i)} borderColor={accent}>
 			Chapter {i + 1}
 		</ChapterContainer>
 	));
@@ -135,7 +142,7 @@ export const ChaptersMenu = () => {
 				<Menu color={foreground} />
 			</OpenButton>
 			<Panel background={secondaryBackground} active={isOpen} shadow={shadow} color={foreground} height={height - 80}>
-				<CloseControllerContainer onClick={onOpenButtonClick()}>
+				<CloseControllerContainer onClick={onOpenButtonClick()} color={foreground}>
 					<Close color={foreground} />
 				</CloseControllerContainer>
 				{renderChapters()}
