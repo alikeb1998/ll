@@ -13,8 +13,8 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-	position: fixed;
-	bottom: 0;
+  position: fixed;
+  bottom: 0;
   padding: 20px;
   display: flex;
   flex-direction: row;
@@ -24,7 +24,7 @@ const Container = styled.div<ContainerProps>`
   height: 80px;
   background: ${({background}) => background};
   transition: all 336ms;
-	z-index: 1;
+  z-index: 1;
 
   ${({shadow}) => shadow && css`
     box-shadow: 0 -10px 40px 0 #00000029;
