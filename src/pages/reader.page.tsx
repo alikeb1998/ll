@@ -56,7 +56,7 @@ const ContentContainer = styled.div<ContentContainerProps>`
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-  padding: 20px;
+  padding: 80px 20px;
 
   & html > body * {
     color: ${({color}) => color} !important;
