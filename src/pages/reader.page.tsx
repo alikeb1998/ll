@@ -10,12 +10,10 @@ import styled, {css} from 'styled-components';
 import {BackHome, ChapterController, ChaptersMenu, Page, SelectStyle} from '../components';
 import {RootState} from '../store';
 import {Color} from '../store/settings/types';
+import {useWindowSize} from '../hooks';
 
 const Container = styled.div`
   width: 100vw;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
 `;
 
 const SelectStyleContainer = styled.div`
@@ -23,6 +21,7 @@ const SelectStyleContainer = styled.div`
   top: 20px;
   right: 20px;
   transition: all 336ms;
+  z-index: 2;
 `;
 
 const BackHomeContainer = styled.div`
@@ -30,6 +29,7 @@ const BackHomeContainer = styled.div`
   top: 20px;
   left: 20px;
   transition: all 336ms;
+  z-index: 2;
 `;
 
 const ChaptersMenuContainer = styled.div`
@@ -38,6 +38,21 @@ const ChaptersMenuContainer = styled.div`
   left: 50%;
   transition: all 336ms;
 	transform: translateX(-50%);
+  z-index: 2;
+`;
+
+interface ContentContainerProps {
+	height: number;
+}
+
+const ContentContainer = styled.div<ContentContainerProps>`
+  width: 100%;
+  height: ${({height}) => height}px;
+  overflow-y: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
 `;
 
 interface ContentProps {
@@ -45,16 +60,10 @@ interface ContentProps {
 	fontSize: number;
 }
 
-const ContentContainer = styled.div`
-  width: 100%;
-  overflow-y: auto;
-	flex: 1;
-`;
-
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-  padding: 80px 20px 160px 20px;
+  padding: 80px 20px;
 
   & html > body * {
     color: ${({color}) => color} !important;
@@ -168,6 +177,8 @@ export const Reader = () => {
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
 
+	const {height} = useWindowSize();
+
 	useEffect(() => {
 		if (!data)
 			history.push('/');
@@ -226,7 +237,7 @@ export const Reader = () => {
 				{
 					isLoading ?
 						<></> :
-						<ContentContainer>
+						<ContentContainer height={height - 80}>
 							<Content color={foreground} fontSize={fontSize}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {

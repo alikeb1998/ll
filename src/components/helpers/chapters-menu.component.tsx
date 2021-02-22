@@ -55,11 +55,10 @@ const Panel = styled.div<PanelProps>`
   position: fixed;
   top: -20px;
   background: ${({background}) => background};
-  border-radius: 10px;
   transition: all 336ms;
   left: ${({active}) => active ? '0' : '-100vw'};
   color: ${({color}) => color};
-  z-index: 2;
+  z-index: 3;
   height: ${({height}) => height}px;
   overflow-y: auto;
 
