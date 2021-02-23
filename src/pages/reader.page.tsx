@@ -13,6 +13,7 @@ import {Color} from '../store/settings/types';
 import {useWindowSize} from '../hooks';
 
 const Container = styled.div`
+	position: relative;
   width: 100vw;
 `;
 
@@ -237,7 +238,7 @@ export const Reader = () => {
 				{
 					isLoading ?
 						<></> :
-						<ContentContainer height={height - 80}>
+						<ContentContainer height={height - 100}>
 							<Content color={foreground} fontSize={fontSize}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
