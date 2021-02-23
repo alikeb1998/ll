@@ -234,11 +234,12 @@ export const Reader = () => {
 			<ChaptersMenuContainer>
 				<ChaptersMenu/>
 			</ChaptersMenuContainer>
+			<ChapterController />
 			<Container>
 				{
 					isLoading ?
 						<></> :
-						<ContentContainer height={height - 100}>
+						<ContentContainer height={height - 80}>
 							<Content color={foreground} fontSize={fontSize}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
@@ -247,7 +248,6 @@ export const Reader = () => {
 							</Content>
 						</ContentContainer>
 				}
-				<ChapterController />
 			</Container>
 		</Page>
 	);
