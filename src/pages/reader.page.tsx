@@ -13,7 +13,6 @@ import {Color} from '../store/settings/types';
 import {useWindowSize} from '../hooks';
 
 const Container = styled.div`
-	position: relative;
   width: 100vw;
 `;
 
@@ -38,22 +37,11 @@ const ChaptersMenuContainer = styled.div`
   top: 20px;
   left: 50%;
   transition: all 336ms;
-	transform: translateX(-50%);
+  transform: translateX(-50%);
   z-index: 2;
 `;
 
-interface ContentContainerProps {
-	height: number;
-}
-
-const ContentContainer = styled.div<ContentContainerProps>`
-  width: 100%;
-  height: ${({height}) => height}px;
-  overflow-y: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1;
+const ContentContainer = styled.div`
 `;
 
 interface ContentProps {
@@ -64,7 +52,7 @@ interface ContentProps {
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
-  padding: 80px 20px;
+  padding: 80px 20px 160px 20px;
 
   & html > body * {
     color: ${({color}) => color} !important;
@@ -178,8 +166,6 @@ export const Reader = () => {
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
 
-	const {height} = useWindowSize();
-
 	useEffect(() => {
 		if (!data)
 			history.push('/');
@@ -232,14 +218,14 @@ export const Reader = () => {
 				<SelectStyle />
 			</SelectStyleContainer>
 			<ChaptersMenuContainer>
-				<ChaptersMenu/>
+				<ChaptersMenu />
 			</ChaptersMenuContainer>
 			<ChapterController />
 			<Container>
 				{
 					isLoading ?
 						<></> :
-						<ContentContainer height={height - 80}>
+						<ContentContainer>
 							<Content color={foreground} fontSize={fontSize}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
