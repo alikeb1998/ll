@@ -14,29 +14,29 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
-		
-		body, #root {
-			overflow-x: hidden;
-		}
 
-    &::-webkit-scrollbar {
-      width: 12px;
-      background-color: transparent;
+    body, #root {
+      overflow-x: hidden;
     }
+  }
 
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
+  *::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+  }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: ${({color}) => color}AA;
-      border-radius: 10px;
-      transition: all 336ms;
-    }
+  *::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
-    &::-webkit-scrollbar-thumb:active {
-      background-color: ${({color}) => color};
-    }
+  *::-webkit-scrollbar-thumb {
+    background-color: ${({color}) => color}AA;
+    border-radius: 10px;
+    transition: all 336ms;
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background-color: ${({color}) => color};
   }
 `;
 
@@ -58,7 +58,7 @@ export const Page: FC<Props> = ({children, containerRef}) => {
 
 	return (
 		<PageContainer background={background} ref={containerRef}>
-			<Style fontFamily={fontFamily} color={accent}/>
+			<Style fontFamily={fontFamily} color={accent} />
 			{children}
 		</PageContainer>
 	);
