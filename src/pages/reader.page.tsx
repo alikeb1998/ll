@@ -159,7 +159,7 @@ export const Reader = () => {
 
 	const {
 		book: {data, currentChapter},
-		settings: {theme: {foreground, secondaryBackground, shadow}, fontSize},
+		settings: {theme: {foreground, background,secondaryBackground, shadow}, fontSize},
 	} = useSelector((state: RootState) => state);
 
 	const [isLoading, setLoading] = useState(false);
@@ -229,6 +229,7 @@ export const Reader = () => {
 						<ContentContainer>
 							<Content color={foreground} fontSize={fontSize} style={{
 								minHeight: height - 80,
+								backgroundColor: background,
 							}}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
