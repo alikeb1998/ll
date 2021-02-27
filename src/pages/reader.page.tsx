@@ -166,6 +166,8 @@ export const Reader = () => {
 	const [html, setHtml] = useState('');
 	const [highlights, setHighlights] = useState<Highlight[]>([]);
 
+	const {height} = useWindowSize();
+
 	useEffect(() => {
 		if (!data)
 			history.push('/');
@@ -220,13 +222,14 @@ export const Reader = () => {
 			<ChaptersMenuContainer>
 				<ChaptersMenu />
 			</ChaptersMenuContainer>
-			<ChapterController />
 			<Container>
 				{
 					isLoading ?
 						<></> :
 						<ContentContainer>
-							<Content color={foreground} fontSize={fontSize}>
+							<Content color={foreground} fontSize={fontSize} style={{
+								minHeight: height - 80,
+							}}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
 									transform: transformImage,
@@ -235,6 +238,7 @@ export const Reader = () => {
 						</ContentContainer>
 				}
 			</Container>
+			<ChapterController />
 		</Page>
 	);
 };
