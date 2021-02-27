@@ -12,6 +12,7 @@ export enum Color {
 	ALICE_BLUE = '#F2F5FB',
 	CORNSILK = '#FFF6D7',
 	TURQUOISE = '#6ADDD3',
+	PLATINUM = '#E6E8E6'
 }
 
 export interface Theme {

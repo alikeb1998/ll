@@ -27,8 +27,7 @@ const Container = styled.div<ContainerProps>`
   z-index: 1;
 
   ${({shadow}) => shadow && css`
-    border-top: 1px solid #00000029;
-  `}
+	`}
 `;
 
 const Bar = styled.div`
