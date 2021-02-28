@@ -26,8 +26,7 @@ const Container = styled.div<ContainerProps>`
   transition: all 336ms;
   z-index: 1;
 
-  ${({shadow}) => shadow && css`
-	`}
+  ${({shadow}) => shadow && css``}
 `;
 
 const Bar = styled.div`

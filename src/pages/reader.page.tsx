@@ -41,18 +41,25 @@ const ChaptersMenuContainer = styled.div`
   z-index: 2;
 `;
 
-const ContentContainer = styled.div`
+interface ContentContainerProps {
+	background: Color;
+}
+
+const ContentContainer = styled.div<ContentContainerProps>`
+	background-color: ${({background}) => background};
 `;
 
 interface ContentProps {
 	color: Color;
 	fontSize: number;
+	background: Color;
 }
 
 const Content = styled.div<ContentProps>`
   width: 800px;
   margin: auto;
   padding: 80px 20px 160px 20px;
+  background-color: ${({background}) => background};
 
   & html > body * {
     color: ${({color}) => color} !important;
@@ -226,10 +233,9 @@ export const Reader = () => {
 				{
 					isLoading ?
 						<></> :
-						<ContentContainer>
-							<Content color={foreground} fontSize={fontSize} style={{
+						<ContentContainer background={background}>
+							<Content background={background} color={foreground} fontSize={fontSize} style={{
 								minHeight: height - 80,
-								backgroundColor: background,
 							}}>
 								<Popover render={renderTextSelection(shadow, secondaryBackground, onHighlightClick())} />
 								{ReactHtmlParser(html, {
