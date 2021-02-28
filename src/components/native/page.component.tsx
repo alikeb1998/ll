@@ -9,6 +9,7 @@ import {Color, FontFamily} from '../../store/settings/types';
 interface StyleProps {
 	fontFamily: FontFamily;
 	color: Color;
+	background: Color;
 }
 
 const Style = createGlobalStyle<StyleProps>`
@@ -17,6 +18,7 @@ const Style = createGlobalStyle<StyleProps>`
 
     body, #root {
       overflow-x: hidden;
+			background-color: ${({background}) => background};
     }
   }
 
@@ -58,7 +60,7 @@ export const Page: FC<Props> = ({children, containerRef}) => {
 
 	return (
 		<PageContainer background={background} ref={containerRef}>
-			<Style fontFamily={fontFamily} color={accent} />
+			<Style fontFamily={fontFamily} color={accent} background={background} />
 			{children}
 		</PageContainer>
 	);
