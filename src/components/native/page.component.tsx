@@ -15,16 +15,17 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
-		overflow-scrolling: touch;
 		overflow-wrap: break-word;
   }
 	
 	html {
 		background-color: ${({background}) => background};
+    overflow: hidden;
 	}
 
   body, #root {
     overflow-x: hidden;
+    overflow: hidden;
   }
 
   *::-webkit-scrollbar {
