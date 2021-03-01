@@ -16,6 +16,7 @@ const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
 		overflow-scrolling: touch;
+		overflow-wrap: break-word;
   }
 	
 	html {
@@ -55,6 +56,27 @@ const PageContainer = styled.div<PageContainerProps>`
   background-color: ${({background}) => background};
 `;
 
+interface BackgroundProps {
+	background: Color;
+}
+
+const Background = styled.div<BackgroundProps>`
+	position: fixed;
+	width: 100vw;
+	height: 200vh;
+  z-index: 0;
+  background-color: ${({background}) => background};
+`;
+
+const Children = styled.div`
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	z-index: 1;
+`;
+
 interface Props {
 	containerRef?: RefObject<HTMLDivElement>;
 }
@@ -65,7 +87,10 @@ export const Page: FC<Props> = ({children, containerRef}) => {
 	return (
 		<PageContainer background={background} ref={containerRef}>
 			<Style fontFamily={fontFamily} color={accent} background={background} />
-			{children}
+			<Background background={background}/>
+			<Children>
+				{children}
+			</Children>
 		</PageContainer>
 	);
 };
