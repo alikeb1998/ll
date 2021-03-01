@@ -1,4 +1,4 @@
-import React, {FC, RefObject} from 'react';
+import React, {FC, RefObject, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import styled, {createGlobalStyle} from 'styled-components';
 
@@ -15,13 +15,13 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
-		overflow-wrap: break-word;
+    overflow-wrap: break-word;
   }
-	
-	html {
-		background-color: ${({background}) => background};
+
+  html {
+    background-color: ${({background}) => background};
     overflow: hidden;
-	}
+  }
 
   body, #root {
     overflow: hidden;
@@ -61,22 +61,15 @@ interface BackgroundProps {
 }
 
 const Background = styled.div<BackgroundProps>`
-	position: fixed;
-	width: 100vw;
-	height: 200vh;
-  z-index: 0;
+  position: absolute;
+  width: 100vw;
+  height: 200vh;
+  z-index: -1;
   background-color: ${({background}) => background};
-`;
-
-const Children = styled.div`
-	position: fixed;
 	top: 0;
-	right: 0;
-	bottom: 0;
 	left: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-	z-index: 1;
+	right: 0;
+	bottom: -100vh;
 `;
 
 interface Props {
@@ -89,10 +82,8 @@ export const Page: FC<Props> = ({children, containerRef}) => {
 	return (
 		<PageContainer background={background} ref={containerRef}>
 			<Style fontFamily={fontFamily} color={accent} background={background} />
-			<Background background={background}/>
-			<Children>
-				{children}
-			</Children>
+			<Background background={background} />
+			{children}
 		</PageContainer>
 	);
 };
