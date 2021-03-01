@@ -24,7 +24,6 @@ const Style = createGlobalStyle<StyleProps>`
 	}
 
   body, #root {
-    overflow-x: hidden;
     overflow: hidden;
   }
 
@@ -71,8 +70,10 @@ const Background = styled.div<BackgroundProps>`
 
 const Children = styled.div`
 	position: fixed;
-	width: 100vw;
-	height: 100vh;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	overflow-x: hidden;
 	overflow-y: auto;
 	z-index: 1;
