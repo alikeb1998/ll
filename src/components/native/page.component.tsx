@@ -15,10 +15,14 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
+  }
+	
+	html {
+		background-color: ${({background}) => background};
+	}
 
-    body, #root {
-      overflow-x: hidden;
-    }
+  body, #root {
+    overflow-x: hidden;
   }
 
   *::-webkit-scrollbar {
