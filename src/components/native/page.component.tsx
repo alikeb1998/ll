@@ -19,6 +19,7 @@ const Style = createGlobalStyle<StyleProps>`
 	
 	html {
 		background-color: ${({background}) => background};
+		height: 100vh;
 	}
 
   body, #root {
