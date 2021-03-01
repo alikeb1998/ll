@@ -18,7 +18,6 @@ const Style = createGlobalStyle<StyleProps>`
 
     body, #root {
       overflow-x: hidden;
-			background-color: ${({background}) => background};
     }
   }
 
