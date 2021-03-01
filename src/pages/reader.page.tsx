@@ -162,7 +162,7 @@ export const Reader = () => {
 
 	const {
 		book: {data, currentChapter},
-		settings: {theme: {foreground, background,secondaryBackground, shadow}, fontSize},
+		settings: {theme: {foreground, secondaryBackground, shadow}, fontSize},
 	} = useSelector((state: RootState) => state);
 
 	const [isLoading, setLoading] = useState(false);

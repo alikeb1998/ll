@@ -15,11 +15,11 @@ interface StyleProps {
 const Style = createGlobalStyle<StyleProps>`
   * {
     font-family: ${({fontFamily}) => fontFamily};
+		overflow-scrolling: touch;
   }
 	
 	html {
 		background-color: ${({background}) => background};
-		height: 100vh;
 	}
 
   body, #root {
